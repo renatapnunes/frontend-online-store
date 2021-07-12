@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import icon from '../icon/shopping-cart.png';
+import '../styles/CartButton.css';
 
 class CartButton extends Component {
   constructor(props) {
