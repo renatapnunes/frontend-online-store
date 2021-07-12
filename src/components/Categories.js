@@ -8,8 +8,6 @@ class Categories extends Component {
     this.state = {
       categories: [],
     };
-
-    this.fetchAPI = this.fetchAPI.bind(this);
   }
 
   componentDidMount() {
