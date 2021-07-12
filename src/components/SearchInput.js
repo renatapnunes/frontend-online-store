@@ -5,7 +5,7 @@ class SearchInput extends Component {
     super();
 
     this.state = {
-      value: ' ',
+      value: '',
     };
   }
 
@@ -17,7 +17,7 @@ class SearchInput extends Component {
         data-testid="home-initial-message"
       >
         <input
-          id="serach-input"
+          id="search-input"
           type="text"
           value={ value }
         />
