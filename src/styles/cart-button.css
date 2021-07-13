@@ -1,0 +1,9 @@
+.btn-cart {
+  position: absolute;
+  right: 0;
+}
+
+.btn-cart img {
+  height: 50px;
+  width: 50px;
+}
