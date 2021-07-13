@@ -1,30 +1,31 @@
 import React, { Component } from 'react';
 
 class SearchInput extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      value: '',
-    };
-  }
-
   render() {
-    const { value } = this.state;
+    // eslint-disable-next-line react/prop-types
+    const { value, handleChange, handleSubmit } = this.props;
     return (
-      <label
-        htmlFor="search-input"
-        data-testid="home-initial-message"
-      >
+      <form onSubmit={ handleSubmit }>
+        <label
+          htmlFor="search-input"
+          data-testid="home-initial-message"
+        >
+          Digite algum termo de pesquisa ou escolha uma categoria.
+          <input
+            id="search-input"
+            data-testid="query-input"
+            type="text"
+            value={ value }
+            onChange={ handleChange }
+          />
+        </label>
         <input
-          id="search-input"
-          type="text"
-          value={ value }
+          data-testid="query-button"
+          type="submit"
+          value="Search"
         />
-        Digite algum termo de pesquisa ou escolha uma categoria.
-      </label>
+      </form>
     );
   }
 }
-
 export default SearchInput;
