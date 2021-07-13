@@ -11,9 +11,11 @@ class Home extends Component {
     this.state = {
       data: [],
       value: '',
+      categories: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -31,15 +33,21 @@ class Home extends Component {
     this.setState({ value: '' });
   }
 
+  handleClick({ target }) {
+    this.fetchAPI(target.id, '');
+  }
+
   async fetchAPI(id, query) {
+    const categories = await api.getCategories();
     const data = await api.getProductsFromCategoryAndQuery(id, query);
     this.setState({
       data: data.results,
+      categories,
     });
   }
 
   render() {
-    const { data, value } = this.state;
+    const { data, value, categories } = this.state;
     return (
       <main>
         <SearchInput
@@ -48,7 +56,7 @@ class Home extends Component {
           handleSubmit={ this.handleSubmit }
         />
         <CartButton />
-        <Categories />
+        <Categories categories={ categories } handleClick={ this.handleClick } />
         <Products data={ data } />
       </main>
     );
