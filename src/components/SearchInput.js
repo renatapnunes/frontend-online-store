@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class SearchInput extends Component {
   render() {
-    // eslint-disable-next-line react/prop-types
     const { value, handleChange, handleSubmit } = this.props;
     return (
       <form onSubmit={ handleSubmit }>
@@ -28,4 +28,11 @@ class SearchInput extends Component {
     );
   }
 }
+
+SearchInput.propTypes = {
+  value: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+};
+
 export default SearchInput;

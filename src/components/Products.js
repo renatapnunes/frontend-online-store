@@ -1,10 +1,15 @@
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import Product from './Product';
 
 class Products extends Component {
   render() {
     const { data } = this.props;
+
+    if (data.length === 0) {
+      return 'Nenhum produto foi encontrado';
+    }
 
     return (
       <section>
@@ -13,5 +18,9 @@ class Products extends Component {
     );
   }
 }
+
+Products.propTypes = {
+  data: PropTypes.arrayOf(Object).isRequired,
+};
 
 export default Products;
