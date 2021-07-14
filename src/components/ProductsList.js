@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Product from './Product';
+import ProductCard from './ProductCard';
 
 class Products extends Component {
   render() {
@@ -13,7 +13,7 @@ class Products extends Component {
 
     return (
       <section>
-        { data.map((product) => <Product key={ product.id } data={ product } />) }
+        { data.map((product) => <ProductCard key={ product.id } data={ product } />) }
       </section>
     );
   }

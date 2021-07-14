@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SearchInput from '../components/SearchInput';
 import CartButton from '../components/CartButton';
 import Categories from '../components/Categories';
-import Products from '../components/Products';
+import ProductsList from '../components/ProductsList';
 import * as api from '../services/api';
 
 class Home extends Component {
@@ -19,7 +19,8 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.fetchAPI();
+    this.fetchCategories();
+    this.fetchProducts();
   }
 
   handleChange({ target }) {
@@ -29,21 +30,34 @@ class Home extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const { value } = this.state;
-    this.fetchAPI('', value);
+    this.fetchProducts('', value);
     this.setState({ value: '' });
   }
 
   handleClick({ target }) {
-    this.fetchAPI(target.id, '');
+    this.fetchProducts(target.id, '');
   }
 
-  async fetchAPI(id, query) {
-    const categories = await api.getCategories();
-    const data = await api.getProductsFromCategoryAndQuery(id, query);
-    this.setState({
-      data: data.results,
-      categories,
-    });
+  async fetchCategories() {
+    try {
+      const categories = await api.getCategories();
+      this.setState({
+        categories,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async fetchProducts(id, query) {
+    try {
+      const data = await api.getProductsFromCategoryAndQuery(id, query);
+      this.setState({
+        data: data.results,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   render() {
@@ -57,7 +71,7 @@ class Home extends Component {
         />
         <CartButton />
         <Categories categories={ categories } handleClick={ this.handleClick } />
-        <Products data={ data } />
+        <ProductsList data={ data } />
       </main>
     );
   }

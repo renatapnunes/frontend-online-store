@@ -8,7 +8,7 @@ class Categories extends Component {
     return (
       <form>
         { categories.map((category) => (
-          <div key={ category.id }>
+          <div key={ category.id } data-testid="category">
             <input
               type="radio"
               id={ category.id }
@@ -18,7 +18,6 @@ class Categories extends Component {
             />
             <label
               htmlFor={ category.id }
-              data-testid="category"
             >
               { category.name }
             </label>
