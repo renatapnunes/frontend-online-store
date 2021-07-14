@@ -57,7 +57,7 @@ class ShoppingCart extends Component {
         {lista.map((itemId) => <CartItem key={ itemId.id } lista={ itemId } />)}
         <p>
           Valor Total:
-          <span className="total-value">{ () => this.loadTotalValue() }</span>
+          <span className="total-value">{ this.loadTotalValue() }</span>
         </p>
         <button type="button"><Link to="/">HOME</Link></button>
       </ol>
