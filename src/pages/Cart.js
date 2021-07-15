@@ -24,7 +24,6 @@ class ShoppingCart extends Component {
       if (key.substring(0, LAST_CHAR_WORD) === 'AT0M1C') {
         return JSON.parse(localStorage.getItem(key));
       }
-
       return '';
     });
     if (lista.length > 0) {
@@ -55,6 +54,7 @@ class ShoppingCart extends Component {
         </div>
       );
     }
+
     return (
       <ol className="ol-cart">
         {lista.map((itemId) => (
