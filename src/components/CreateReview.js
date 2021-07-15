@@ -21,15 +21,22 @@ class CreateReview extends Component {
     this.newReview = this.newReview.bind(this);
     this.addReview = this.addReview.bind(this);
     this.saveReviews = this.saveReviews.bind(this);
+    this.loadReviews = this.loadReviews.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadReviews();
   }
 
   getReviews() {
-    const { allReviews, id } = this.props;
+    const { id } = this.props;
+    const { reviews } = this.state;
     let resp = '';
-    if (!allReviews) {
+
+    if (!reviews) {
       resp = <p>Seja o primeiro a fazer uma avaliação deste produto.</p>;
     } else {
-      resp = allReviews
+      resp = reviews
         .filter(({ productId }) => productId === id)
         .map((productReview, index) => (
           <Review
@@ -38,22 +45,22 @@ class CreateReview extends Component {
           />
         ));
     }
+
     return resp;
   }
 
   newReview({ target }) {
     const { name, value } = target;
 
-    if (name === 'rating') Number(value);
+    const aux = (name === 'rating') ? Number(value) : value;
 
     this.setState({
-      [name]: value,
+      [name]: aux,
     });
   }
 
   async addReview() {
     const { productId, email, rating, comment } = this.state;
-    const { loadReviews } = this.props;
     const currentReview = {
       productId,
       email,
@@ -69,12 +76,23 @@ class CreateReview extends Component {
     }));
 
     await this.saveReviews();
-    loadReviews();
+    this.loadReviews();
   }
 
   saveReviews() {
     const { reviews } = this.state;
     localStorage.setItem('Reviews', JSON.stringify(reviews));
+  }
+
+  async loadReviews() {
+    const stringReviews = await localStorage.getItem('Reviews');
+    let allReviews = await JSON.parse(stringReviews);
+
+    if (!allReviews) allReviews = [];
+
+    this.setState({
+      reviews: allReviews,
+    });
   }
 
   render() {
@@ -95,7 +113,7 @@ class CreateReview extends Component {
           {/* Consultamos o seguinte vídeo para resolver esta parte:
               https://www.youtube.com/watch?v=eDw46GYAIDQ&ab_channel=EricMurphy */}
           <div>
-            { [...Array(stars)].map((star, index) => (
+            { [...Array(stars)].map((_star, index) => (
               <label
                 key={ index }
                 htmlFor={ `star-${index}` }
@@ -134,8 +152,6 @@ class CreateReview extends Component {
 }
 
 CreateReview.propTypes = {
-  loadReviews: PropTypes.func.isRequired,
-  allReviews: PropTypes.arrayOf(Object).isRequired,
   id: PropTypes.string.isRequired,
 };
 

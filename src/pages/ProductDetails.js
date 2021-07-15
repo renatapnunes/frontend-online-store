@@ -6,33 +6,9 @@ import CreateReview from '../components/CreateReview';
 import '../styles/reviews.css';
 
 class ProductDetails extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      reviews: [],
-    };
-
-    this.loadReviews = this.loadReviews.bind(this);
-  }
-
-  componentDidMount() {
-    this.loadReviews();
-  }
-
-  async loadReviews() {
-    const stringReviews = await localStorage.getItem('Reviews');
-    const allReviews = await JSON.parse(stringReviews);
-
-    this.setState({
-      reviews: allReviews,
-    });
-  }
-
   render() {
     const { location: { state: { product } } } = this.props;
     const { thumbnail, title, price, attributes, id } = product;
-    const { reviews } = this.state;
 
     return (
       <div>
@@ -54,11 +30,7 @@ class ProductDetails extends Component {
           </div>
         </section>
         <section className="reviews">
-          <CreateReview
-            loadReviews={ this.loadReviews }
-            allReviews={ reviews }
-            id={ id }
-          />
+          <CreateReview id={ id } />
         </section>
       </div>
     );
