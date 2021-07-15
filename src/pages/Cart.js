@@ -24,10 +24,13 @@ class ShoppingCart extends Component {
       if (key.substring(0, LAST_CHAR_WORD) === 'AT0M1C') {
         return JSON.parse(localStorage.getItem(key));
       }
-      return true;
+      return '';
     });
     if (lista.length > 0) {
       this.setState({ empty: false, lista });
+    }
+    if (lista.length < 1) {
+      this.setState({ empty: true, lista });
     }
     return true;
   }
@@ -38,7 +41,6 @@ class ShoppingCart extends Component {
     lista.forEach((item) => {
       aux += (item.price * item.howMuch);
     });
-    console.log(aux);
     return aux;
   }
 
@@ -52,12 +54,18 @@ class ShoppingCart extends Component {
         </div>
       );
     }
+
     return (
       <ol className="ol-cart">
-        {lista.map((itemId) => <CartItem key={ itemId.id } lista={ itemId } />)}
+        {lista.map((itemId) => (
+          <CartItem
+            key={ itemId.id }
+            lista={ itemId }
+            loadStorage={ this.loadLocalStorage }
+          />))}
         <p>
           Valor Total:
-          <span className="total-value">{ this.loadTotalValue() }</span>
+          <span className="total-value">{ this.loadTotalValue().toFixed(2) }</span>
         </p>
         <button type="button"><Link to="/">HOME</Link></button>
       </ol>
