@@ -13,7 +13,7 @@ class CartItem extends Component {
       title,
       price,
       id,
-      totalValue: howMuch * price
+      totalValue: howMuch * price,
     };
 
     this.handleDeleteItem = this.handleDeleteItem.bind(this);
@@ -26,36 +26,63 @@ class CartItem extends Component {
     const { id } = this.state;
     localStorage.removeItem(`AT0M1C-${id}`);
     loadStorage();
-
   }
 
-  handleClickSub(){
+  handleClickSub() {
     const { howMuch, price } = this.state;
     if (howMuch <= 1) this.handleDeleteItem();
-    this.setState({howMuch: howMuch -1, totalValue: price * howMuch })
-    
+    this.setState({ howMuch: howMuch - 1, totalValue: price * howMuch });
   }
 
-    handleClickSum(){
-    const { howMuch, price} = this.state;
-    this.setState({howMuch: howMuch +1, totalValue: price * howMuch })
+  handleClickSum() {
+    const { howMuch, price } = this.state;
+    this.setState({ howMuch: howMuch + 1, totalValue: price * howMuch });
   }
 
   render() {
     const { img, title, howMuch, price, totalValue } = this.state;
-    const NUM_MAX_CARACTER = 20;
     return (
       <li className="cart-item-card">
-        <button type="button" onClick={ this.handleDeleteItem }>x</button>
-        <img src={ img } alt={ title } />
-        <span data-testid="shopping-cart-product-name">
-          {`${title.substring(0, NUM_MAX_CARACTER)}...`}
+        <button
+          type="button"
+          onClick={ this.handleDeleteItem }
+        >
+          x
+        </button>
+        <img
+          src={ img }
+          alt={ title }
+        />
+        <span
+          data-testid="shopping-cart-product-name"
+        >
+          {title}
         </span>
-        <button type="button" onClick={this.handleClickSub}>-</button>
-        <span data-testid="shopping-cart-product-quantity" >{howMuch}</span>
-        <button type="button" onClick={this.handleClickSum}>+</button>
-        <span>{`Unit Price: ${price.toFixed(2)}`}</span>
-        <span>{(totalValue).toFixed(2)}</span>
+        <button
+          type="button"
+          onClick={ this.handleClickSub }
+          data-testid="product-decrease-quantity"
+        >
+          -
+        </button>
+        <span
+          data-testid="shopping-cart-product-quantity"
+        >
+          {howMuch}
+        </span>
+        <button
+          type="button"
+          onClick={ this.handleClickSum }
+          data-testid="product-increase-quantity"
+        >
+          +
+        </button>
+        <span>
+          {`Unit Price: ${price.toFixed(2)}`}
+        </span>
+        <span>
+          {(totalValue).toFixed(2)}
+        </span>
       </li>
     );
   }
@@ -69,6 +96,7 @@ CartItem.propTypes = {
     price: PropTypes.number,
     id: PropTypes.string,
   }).isRequired,
+  loadStorage: PropTypes.func.isRequired,
 };
 
 export default CartItem;

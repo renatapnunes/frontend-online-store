@@ -35,7 +35,7 @@ class Product extends Component {
         <img src={ thumbnail } alt={ title } />
         <h4>{ title }</h4>
         <span>{ `R$: ${price}` }</span>
-        <button>
+        <button type="button">
           <Link
             data-testid="product-detail-link"
             to={ location }
