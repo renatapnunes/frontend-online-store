@@ -35,12 +35,14 @@ class Product extends Component {
         <img src={ thumbnail } alt={ title } />
         <h4>{ title }</h4>
         <span>{ `R$: ${price}` }</span>
-        <Link
-          data-testid="product-detail-link"
-          to={ location }
-        >
-          VER DETALHES
-        </Link>
+        <button>
+          <Link
+            data-testid="product-detail-link"
+            to={ location }
+          >
+            VER DETALHES
+          </Link>
+        </button>
         <button
           data-testid="product-add-to-cart"
           type="button"

@@ -6,20 +6,23 @@ class CartItem extends Component {
   constructor(props) {
     super(props);
     const { lista } = this.props;
-    const { img, title, howMuch, price } = lista;
+    const { id, img, title, howMuch, price } = lista;
     this.state = {
       howMuch,
       img,
       title,
       price,
-
+      id,
     };
 
     this.handleDeleteItem = this.handleDeleteItem.bind(this);
   }
 
   handleDeleteItem() {
-
+    const { loadStorage } = this.props;
+    const { id } = this.state;
+    localStorage.removeItem(`AT0M1C-${id}`);
+    loadStorage();
   }
 
   render() {
@@ -27,7 +30,7 @@ class CartItem extends Component {
     const NUM_MAX_CARACTER = 20;
     return (
       <li className="cart-item-card">
-        <button type="button">x</button>
+        <button type="button" onClick={ this.handleDeleteItem }>x</button>
         <img src={ img } alt={ title } />
         <span data-testid="shopping-cart-product-name">
           {`${title.substring(0, NUM_MAX_CARACTER)}...`}
@@ -35,8 +38,8 @@ class CartItem extends Component {
         <button type="button">-</button>
         <span data-testid="shopping-cart-product-quantity">{howMuch}</span>
         <button type="button">+</button>
-        <span>{`Unit Price: ${price}`}</span>
-        <span>{price * howMuch}</span>
+        <span>{`Unit Price: ${price.toFixed(2)}`}</span>
+        <span>{(price * howMuch).toFixed(2)}</span>
       </li>
     );
   }
@@ -48,6 +51,7 @@ CartItem.propTypes = {
     title: PropTypes.string,
     howMuch: PropTypes.number,
     price: PropTypes.number,
+    id: PropTypes.string,
   }).isRequired,
 };
 
