@@ -92,7 +92,7 @@ class CreateReview extends Component {
             required
             onChange={ this.newReview }
           />
-          {/* Consultei o seguinte vídeo para resolver esta parte:
+          {/* Consultamos o seguinte vídeo para resolver esta parte:
               https://www.youtube.com/watch?v=eDw46GYAIDQ&ab_channel=EricMurphy */}
           <div>
             { [...Array(stars)].map((star, index) => (
@@ -101,6 +101,7 @@ class CreateReview extends Component {
                 htmlFor={ `star-${index}` }
               >
                 <input
+                  className="star-input"
                   type="radio"
                   id={ `star-${index}` }
                   name="rating"

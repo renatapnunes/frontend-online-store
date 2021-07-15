@@ -33,8 +33,10 @@
 
 .selected {
   color: rgb(207, 159, 26);
+  font-size: 20px;
 }
 
 .unselected {
   color: grey;
+  font-size: 20px;
 }
