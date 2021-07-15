@@ -24,7 +24,7 @@ class Product extends Component {
 
   render() {
     const { data } = this.props;
-    const { id, thumbnail, title, price } = data;
+    const { id, thumbnail, title, price, shipping } = data;
     const location = {
       pathname: `product/${id}`,
       state: { product: data },
@@ -32,6 +32,9 @@ class Product extends Component {
 
     return (
       <div data-testid="product">
+        { shipping.free_shipping
+          ? <span data-testid="free-shipping">FRETE GRÁTIS</span>
+          : '' }
         <img src={ thumbnail } alt={ title } />
         <h4>{ title }</h4>
         <span>{ `R$: ${price}` }</span>
@@ -61,6 +64,9 @@ Product.propTypes = {
     title: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     id: PropTypes.string.isRequired,
+    shipping: PropTypes.shape({
+      free_shipping: PropTypes.bool,
+    }),
   }).isRequired,
 };
 

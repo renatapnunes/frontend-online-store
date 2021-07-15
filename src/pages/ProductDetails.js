@@ -32,13 +32,16 @@ class ProductDetails extends Component {
 
   render() {
     const { location: { state: { product } } } = this.props;
-    const { thumbnail, title, price, attributes, id } = product;
+    const { thumbnail, title, price, attributes, id, shipping } = product;
 
     return (
       <div>
         <section>
           <CartButton />
           <div>
+            { shipping.free_shipping
+              ? <span data-testid="free-shipping">FRETE GRÁTIS</span>
+              : '' }
             <img src={ thumbnail } alt={ title } />
             <h4 data-testid="product-detail-name">{ title }</h4>
             <span>{ `R$: ${price}` }</span>
