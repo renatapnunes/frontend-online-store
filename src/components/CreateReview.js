@@ -11,15 +11,16 @@ class CreateReview extends Component {
 
     this.state = {
       email: '',
+      rating: 0,
       comment: '',
       productId: id,
       reviews: [],
     };
 
+    this.getReviews = this.getReviews.bind(this);
     this.newReview = this.newReview.bind(this);
     this.addReview = this.addReview.bind(this);
     this.saveReviews = this.saveReviews.bind(this);
-    this.getReviews = this.getReviews.bind(this);
   }
 
   getReviews() {
@@ -42,23 +43,28 @@ class CreateReview extends Component {
 
   newReview({ target }) {
     const { name, value } = target;
+
+    if (name === 'rating') Number(value);
+
     this.setState({
       [name]: value,
     });
   }
 
   async addReview() {
-    const { productId, email, comment } = this.state;
+    const { productId, email, rating, comment } = this.state;
     const { loadReviews } = this.props;
     const currentReview = {
       productId,
       email,
+      rating,
       comment,
     };
 
     await this.setState((prevState) => ({
       reviews: [...prevState.reviews, currentReview],
       email: '',
+      rating: 0,
       comment: '',
     }));
 
@@ -71,16 +77,9 @@ class CreateReview extends Component {
     localStorage.setItem('Reviews', JSON.stringify(reviews));
   }
 
-  // getReviews(productReviews) {
-  //   productReviews.map((productReview, index) => (
-  //     <Review
-  //       key={ index }
-  //       reviews={ productReview }
-  //     />));
-  // }
-
   render() {
-    const { email, comment } = this.state;
+    const { email, rating, comment } = this.state;
+    const stars = 5;
 
     return (
       <section>
@@ -93,6 +92,27 @@ class CreateReview extends Component {
             required
             onChange={ this.newReview }
           />
+          {/* Consultei o seguinte vídeo para resolver esta parte:
+              https://www.youtube.com/watch?v=eDw46GYAIDQ&ab_channel=EricMurphy */}
+          <div>
+            { [...Array(stars)].map((star, index) => (
+              <label
+                key={ index }
+                htmlFor={ `star-${index}` }
+              >
+                <input
+                  type="radio"
+                  id={ `star-${index}` }
+                  name="rating"
+                  value={ index + 1 }
+                  onClick={ this.newReview }
+                />
+                { index < rating
+                  ? <span className="selected">★</span>
+                  : <span className="unselected">★</span> }
+              </label>
+            ))}
+          </div>
           <textarea
             data-testid="product-detail-evaluation"
             placeholder="O que você achou do produto? (opcional)"

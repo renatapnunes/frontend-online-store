@@ -26,3 +26,15 @@
   padding: 10px;
   width: 250px;
 }
+
+.star-input {
+  display: none;
+}
+
+.selected {
+  color: rgb(207, 159, 26);
+}
+
+.unselected {
+  color: grey;
+}

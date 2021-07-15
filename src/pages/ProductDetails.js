@@ -23,7 +23,6 @@ class ProductDetails extends Component {
   async loadReviews() {
     const stringReviews = await localStorage.getItem('Reviews');
     const allReviews = await JSON.parse(stringReviews);
-    console.log(allReviews);
 
     this.setState({
       reviews: allReviews,
