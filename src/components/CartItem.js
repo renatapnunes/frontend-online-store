@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 class CartItem extends Component {
   constructor(props) {
     super(props);
-    const { lista } = this.props;
-    const { id, img, title, howMuch, price } = lista;
+    const { product } = this.props;
+    const { id, img, title, quantity, price } = product;
     this.state = {
-      howMuch,
+      quantity,
       img,
       title,
       price,
       id,
-      totalValue: howMuch * price,
+      totalValue: quantity * price,
     };
 
     this.handleDeleteItem = this.handleDeleteItem.bind(this);
@@ -21,31 +21,57 @@ class CartItem extends Component {
     this.handleClickSum = this.handleClickSum.bind(this);
   }
 
-  handleDeleteItem() {
-    const { loadStorage } = this.props;
-    const { id } = this.state;
-    localStorage.removeItem(`AT0M1C-${id}`);
-    loadStorage();
+  handleDeleteItem(id) {
+    const { loadCartItems } = this.props;
+    const storageItems = JSON.parse(localStorage.getItem('CartItems2'));
+    const itemFound = storageItems.find((item) => item.id === id);
+    const index = storageItems.indexOf(itemFound);
+
+    storageItems.splice(index, 1);
+    localStorage.setItem('CartItems2', JSON.stringify(storageItems));
+
+    loadCartItems();
   }
 
-  handleClickSub() {
-    const { howMuch, price } = this.state;
-    if (howMuch <= 1) this.handleDeleteItem();
-    this.setState({ howMuch: howMuch - 1, totalValue: price * howMuch });
+  handleClickSub(id) {
+    const { quantity, price } = this.state;
+    const subQuantity = quantity - 1;
+    const subValue = price * subQuantity;
+
+    const storageItems = JSON.parse(localStorage.getItem('CartItems2'));
+    const itemFound = storageItems.find((item) => item.id === id);
+
+    itemFound.quantity = subQuantity;
+    localStorage.setItem('CartItems2', JSON.stringify(storageItems));
+
+    if (subQuantity > 0) {
+      this.setState({ quantity: subQuantity, totalValue: subValue });
+    }
   }
 
-  handleClickSum() {
-    const { howMuch, price } = this.state;
-    this.setState({ howMuch: howMuch + 1, totalValue: price * howMuch });
+  handleClickSum(id) {
+    const { loadTotalValue } = this.props;
+    const { quantity, price } = this.state;
+    const sumQuantity = quantity + 1;
+    const sumValue = price * sumQuantity;
+
+    const storageItems = JSON.parse(localStorage.getItem('CartItems2'));
+    const itemFound = storageItems.find((item) => item.id === id);
+
+    itemFound.quantity = sumQuantity;
+    localStorage.setItem('CartItems2', JSON.stringify(storageItems));
+
+    this.setState({ quantity: sumQuantity, totalValue: sumValue });
+    loadTotalValue();
   }
 
   render() {
-    const { img, title, howMuch, price, totalValue } = this.state;
+    const { img, title, quantity, price, totalValue, id } = this.state;
     return (
       <li className="cart-item-card">
         <button
           type="button"
-          onClick={ this.handleDeleteItem }
+          onClick={ () => this.handleDeleteItem(id) }
         >
           x
         </button>
@@ -56,11 +82,11 @@ class CartItem extends Component {
         <span
           data-testid="shopping-cart-product-name"
         >
-          {title}
+          { title }
         </span>
         <button
           type="button"
-          onClick={ this.handleClickSub }
+          onClick={ () => this.handleClickSub(id) }
           data-testid="product-decrease-quantity"
         >
           -
@@ -68,17 +94,17 @@ class CartItem extends Component {
         <span
           data-testid="shopping-cart-product-quantity"
         >
-          {howMuch}
+          { quantity }
         </span>
         <button
           type="button"
-          onClick={ this.handleClickSum }
+          onClick={ () => this.handleClickSum(id) }
           data-testid="product-increase-quantity"
         >
           +
         </button>
         <span>
-          {`Unit Price: ${price.toFixed(2)}`}
+          {`Unit Price: ${Number(price).toFixed(2)}`}
         </span>
         <span>
           {(totalValue).toFixed(2)}
@@ -89,14 +115,15 @@ class CartItem extends Component {
 }
 
 CartItem.propTypes = {
-  lista: PropTypes.shape({
+  product: PropTypes.shape({
     img: PropTypes.string,
     title: PropTypes.string,
-    howMuch: PropTypes.number,
+    quantity: PropTypes.number,
     price: PropTypes.number,
     id: PropTypes.string,
   }).isRequired,
-  loadStorage: PropTypes.func.isRequired,
+  loadCartItems: PropTypes.func.isRequired,
+  loadTotalValue: PropTypes.func.isRequired,
 };
 
 export default CartItem;

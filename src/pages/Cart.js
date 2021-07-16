@@ -1,74 +1,78 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import CartItem from '../components/CartItem';
 
 class ShoppingCart extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+
     this.state = {
-      empty: true,
-      lista: '',
+      cartItems: [],
     };
-    this.loadLocalStorage = this.loadLocalStorage.bind(this);
+
+    this.loadCartItems = this.loadCartItems.bind(this);
     this.loadTotalValue = this.loadTotalValue.bind(this);
   }
 
   componentDidMount() {
-    this.loadLocalStorage();
+    this.loadCartItems();
   }
 
-  loadLocalStorage() {
-    const storage = Object.keys(localStorage);
-    const LAST_CHAR_WORD = 6;
-    const lista = storage.map((key) => {
-      if (key.substring(0, LAST_CHAR_WORD) === 'AT0M1C') {
-        return JSON.parse(localStorage.getItem(key));
-      }
-      return '';
-    });
-    if (lista.length > 0) {
-      this.setState({ empty: false, lista });
+  loadCartItems() {
+    let loadedCartItems = localStorage.getItem('CartItems2');
+    loadedCartItems = JSON.parse(loadedCartItems);
+
+    if (loadedCartItems) {
+      this.setState({
+        cartItems: loadedCartItems,
+      });
     }
-    if (lista.length < 1) {
-      this.setState({ empty: true, lista });
-    }
-    return true;
   }
 
   loadTotalValue() {
-    const { lista } = this.state;
-    let aux = 0;
-    lista.forEach((item) => {
-      aux += (item.price * item.howMuch);
+    const { cartItems } = this.state;
+    let total = 0;
+
+    cartItems.forEach((item) => {
+      total += item.price * item.quantity;
     });
-    return aux;
+
+    total = total.toFixed(2);
+
+    return <span className="total-value">{ total }</span>;
   }
 
   render() {
-    const { empty, lista } = this.state;
-    if (empty) {
+    const { cartItems } = this.state;
+
+    if (cartItems.length === 0) {
       return (
         <div data-testid="shopping-cart-empty-message">
-          Seu carrinho está vazio
-          <button type="button"><Link to="/">HOME</Link></button>
+          <h2>Seu carrinho está vazio</h2>
+          <button type="button"><Link to="/">VOLTAR</Link></button>
         </div>
       );
     }
 
     return (
-      <ol className="ol-cart">
-        {lista.map((itemId) => (
-          <CartItem
-            key={ itemId.id }
-            lista={ itemId }
-            loadStorage={ this.loadLocalStorage }
-          />))}
+      <section>
+        <button type="button"><Link to="/">VOLTAR</Link></button>
+        <ol className="ol-cart">
+          { cartItems.map((item) => (
+            <CartItem
+              key={ item.id }
+              product={ item }
+              loadCartItems={ this.loadCartItems }
+              loadTotalValue={ this.loadTotalValue }
+            />
+          )) }
+        </ol>
         <p>
           Valor Total:
-          <span className="total-value">{ this.loadTotalValue().toFixed(2) }</span>
+          <span className="total-value">{ this.loadTotalValue() }</span>
         </p>
-        <button type="button"><Link to="/">HOME</Link></button>
-      </ol>
+      </section>
     );
   }
 }

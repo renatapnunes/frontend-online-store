@@ -18,7 +18,7 @@ class Product extends Component {
           : '' }
         <img src={ thumbnail } alt={ title } />
         <h4>{ title }</h4>
-        <span>{ `R$: ${price}` }</span>
+        <span>{ `R$: ${price.toFixed(2)}` }</span>
         <button type="button">
           <Link
             data-testid="product-detail-link"

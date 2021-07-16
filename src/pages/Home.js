@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
+
 import SearchInput from '../components/SearchInput';
 import CartButton from '../components/CartButton';
 import Categories from '../components/Categories';
@@ -90,16 +91,16 @@ class Home extends Component {
       cartItems: updatedItems,
     });
 
-    await this.saveCart();
+    this.saveCart();
   }
 
   saveCart() {
     const { cartItems } = this.state;
-    localStorage.setItem('CartItems', JSON.stringify(cartItems));
+    localStorage.setItem('CartItems2', JSON.stringify(cartItems));
   }
 
   loadCartItems() {
-    let loadedCartItems = localStorage.getItem('CartItems');
+    let loadedCartItems = localStorage.getItem('CartItems2');
     loadedCartItems = JSON.parse(loadedCartItems);
 
     if (loadedCartItems) {
