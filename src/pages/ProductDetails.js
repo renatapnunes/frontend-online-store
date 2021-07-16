@@ -7,31 +7,8 @@ import CreateReview from '../components/CreateReview';
 import '../styles/reviews.css';
 
 class ProductDetails extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      count: 1,
-    };
-
-    this.addToCart = this.addToCart.bind(this);
-  }
-
-  addToCart(data) {
-    const { count } = this.state;
-    this.setState({ count: count + 1 });
-
-    localStorage.setItem(`AT0M1C-${data.id}`, JSON.stringify({
-      id: data.id,
-      howMuch: count,
-      price: data.price,
-      img: data.thumbnail,
-      title: data.title }));
-    return true;
-  }
-
   render() {
-    const { location: { state: { product } } } = this.props;
+    const { addToCart, location: { state: { product } } } = this.props;
     const { thumbnail, title, price, attributes, id, shipping } = product;
 
     return (
@@ -57,7 +34,7 @@ class ProductDetails extends Component {
             <button
               data-testid="product-detail-add-to-cart"
               type="button"
-              onClick={ () => this.addToCart(product) }
+              onClick={ () => addToCart(product) }
             >
               Adicionar no Carrinho
             </button>
@@ -74,6 +51,7 @@ class ProductDetails extends Component {
 
 ProductDetails.propTypes = {
   location: PropTypes.objectOf(Object).isRequired,
+  addToCart: PropTypes.func.isRequired,
 };
 
 export default ProductDetails;
