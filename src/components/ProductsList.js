@@ -5,7 +5,7 @@ import ProductCard from './ProductCard';
 
 class Products extends Component {
   render() {
-    const { data } = this.props;
+    const { data, addToCart } = this.props;
 
     if (data.length === 0) {
       return 'Nenhum produto foi encontrado';
@@ -13,7 +13,13 @@ class Products extends Component {
 
     return (
       <section>
-        { data.map((product) => <ProductCard key={ product.id } data={ product } />) }
+        { data.map((product) => (
+          <ProductCard
+            key={ product.id }
+            addToCart={ addToCart }
+            data={ product }
+          />
+        )) }
       </section>
     );
   }
@@ -21,6 +27,7 @@ class Products extends Component {
 
 Products.propTypes = {
   data: PropTypes.arrayOf(Object).isRequired,
+  addToCart: PropTypes.func.isRequired,
 };
 
 export default Products;

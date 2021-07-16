@@ -3,27 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class Product extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      count: 1,
-    };
-    this.addToCart = this.addToCart.bind(this);
-  }
-
-  addToCart(data) {
-    const { count } = this.state;
-    this.setState({ count: count + 1 });
-    localStorage.setItem(`AT0M1C-${data.id}`, JSON.stringify({ id: data.id,
-      howMuch: count,
-      price: data.price,
-      img: data.thumbnail,
-      title: data.title }));
-    return true;
-  }
-
   render() {
-    const { data } = this.props;
+    const { data, addToCart } = this.props;
     const { id, thumbnail, title, price, shipping } = data;
     const location = {
       pathname: `product/${id}`,
@@ -49,7 +30,7 @@ class Product extends Component {
         <button
           data-testid="product-add-to-cart"
           type="button"
-          onClick={ () => this.addToCart(data) }
+          onClick={ () => addToCart(data) }
         >
           Adicionar no Carrinho
         </button>
@@ -59,6 +40,7 @@ class Product extends Component {
 }
 
 Product.propTypes = {
+  addToCart: PropTypes.func.isRequired,
   data: PropTypes.shape({
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
