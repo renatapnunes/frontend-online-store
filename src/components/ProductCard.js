@@ -3,28 +3,9 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class Product extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      count: 1,
-    };
-    this.addToCart = this.addToCart.bind(this);
-  }
-
-  addToCart(data) {
-    const { count } = this.state;
-    this.setState({ count: count + 1 });
-    localStorage.setItem(`AT0M1C-${data.id}`, JSON.stringify({ id: data.id,
-      howMuch: count,
-      price: data.price,
-      img: data.thumbnail,
-      title: data.title }));
-    return true;
-  }
-
   render() {
-    const { data } = this.props;
-    const { id, thumbnail, title, price } = data;
+    const { data, addToCart } = this.props;
+    const { id, thumbnail, title, price, shipping } = data;
     const location = {
       pathname: `product/${id}`,
       state: { product: data },
@@ -32,9 +13,12 @@ class Product extends Component {
 
     return (
       <div data-testid="product">
+        { shipping.free_shipping
+          ? <span data-testid="free-shipping">FRETE GRÁTIS</span>
+          : '' }
         <img src={ thumbnail } alt={ title } />
         <h4>{ title }</h4>
-        <span>{ `R$: ${price}` }</span>
+        <span>{ `R$: ${price.toFixed(2)}` }</span>
         <button type="button">
           <Link
             data-testid="product-detail-link"
@@ -46,7 +30,7 @@ class Product extends Component {
         <button
           data-testid="product-add-to-cart"
           type="button"
-          onClick={ () => this.addToCart(data) }
+          onClick={ () => addToCart(data) }
         >
           Adicionar no Carrinho
         </button>
@@ -56,11 +40,15 @@ class Product extends Component {
 }
 
 Product.propTypes = {
+  addToCart: PropTypes.func.isRequired,
   data: PropTypes.shape({
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     id: PropTypes.string.isRequired,
+    shipping: PropTypes.shape({
+      free_shipping: PropTypes.bool,
+    }),
   }).isRequired,
 };
 

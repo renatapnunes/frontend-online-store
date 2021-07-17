@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import SearchInput from '../components/SearchInput';
 import CartButton from '../components/CartButton';
 import Categories from '../components/Categories';
@@ -62,6 +64,7 @@ class Home extends Component {
 
   render() {
     const { data, value, categories } = this.state;
+    const { addToCart } = this.props;
     return (
       <main>
         <SearchInput
@@ -71,10 +74,14 @@ class Home extends Component {
         />
         <CartButton />
         <Categories categories={ categories } handleClick={ this.handleClick } />
-        <ProductsList data={ data } />
+        <ProductsList addToCart={ addToCart } data={ data } />
       </main>
     );
   }
 }
+
+Home.propTypes = {
+  addToCart: PropTypes.func.isRequired,
+};
 
 export default Home;
