@@ -13,11 +13,13 @@ class Home extends Component {
     this.state = {
       data: [],
       value: '',
+      order: 'relevant',
       categories: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.updateSelect = this.updateSelect.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +40,10 @@ class Home extends Component {
 
   handleClick({ target }) {
     this.fetchProducts(target.id, '');
+  }
+
+  updateSelect({ target }) {
+    this.setState({ order: target.value });
   }
 
   async fetchCategories() {
@@ -63,7 +69,7 @@ class Home extends Component {
   }
 
   render() {
-    const { data, value, categories } = this.state;
+    const { data, value, order, categories } = this.state;
     const { addToCart } = this.props;
     return (
       <main>
@@ -72,9 +78,22 @@ class Home extends Component {
           handleChange={ this.handleChange }
           handleSubmit={ this.handleSubmit }
         />
+        <label htmlFor="select-order">
+          Ordernar por:
+          <select
+            id="select-order"
+            name="order"
+            value={ order }
+            onChange={ this.updateSelect }
+          >
+            <option value="relevant">mais relevante</option>
+            <option value="lowest">menor preço</option>
+            <option value="biggest">maior preço</option>
+          </select>
+        </label>
         <CartButton />
         <Categories categories={ categories } handleClick={ this.handleClick } />
-        <ProductsList addToCart={ addToCart } data={ data } />
+        <ProductsList addToCart={ addToCart } data={ data } order={ order } />
       </main>
     );
   }
