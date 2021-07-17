@@ -1,50 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import CartItem from '../components/CartItem';
 
-class ShoppingCart extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      cartItems: [],
-    };
-
-    this.loadCartItems = this.loadCartItems.bind(this);
-    this.loadTotalValue = this.loadTotalValue.bind(this);
-  }
-
-  componentDidMount() {
-    this.loadCartItems();
-  }
-
-  loadCartItems() {
-    let loadedCartItems = localStorage.getItem('CartItems2');
-    loadedCartItems = JSON.parse(loadedCartItems);
-
-    if (loadedCartItems) {
-      this.setState({
-        cartItems: loadedCartItems,
-      });
-    }
-  }
-
-  loadTotalValue() {
-    const { cartItems } = this.state;
-    let total = 0;
-
-    cartItems.forEach((item) => {
-      total += item.price * item.quantity;
-    });
-
-    total = total.toFixed(2);
-
-    return <span className="total-value">{ total }</span>;
-  }
-
+class Cart extends Component {
   render() {
-    const { cartItems } = this.state;
+    const
+      {
+        handleDeleteItem,
+        handleClickSum,
+        handleClickSub,
+        cartItems,
+        totalValue,
+        loadProductValue,
+      } = this.props;
 
     if (cartItems.length === 0) {
       return (
@@ -63,18 +33,30 @@ class ShoppingCart extends Component {
             <CartItem
               key={ item.id }
               product={ item }
-              loadCartItems={ this.loadCartItems }
-              loadTotalValue={ this.loadTotalValue }
+              handleDeleteItem={ handleDeleteItem }
+              handleClickSub={ handleClickSub }
+              handleClickSum={ handleClickSum }
+              loadProductValue={ loadProductValue }
             />
           )) }
         </ol>
-        <p>
+        <span className="total-value">
           Valor Total:
-          <span className="total-value">{ this.loadTotalValue() }</span>
-        </p>
+          {' '}
+          { totalValue }
+        </span>
       </section>
     );
   }
 }
 
-export default ShoppingCart;
+Cart.propTypes = {
+  handleDeleteItem: PropTypes.func.isRequired,
+  handleClickSum: PropTypes.func.isRequired,
+  handleClickSub: PropTypes.func.isRequired,
+  loadProductValue: PropTypes.func.isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  totalValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
+
+export default Cart;
