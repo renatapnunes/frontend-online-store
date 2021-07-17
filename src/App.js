@@ -147,6 +147,7 @@ class App extends Component {
             render={ (routerProps) => (<Home
               { ...routerProps }
               addToCart={ this.addToCart }
+              cartItems={ cartItems }
             />) }
           />
           <Route
@@ -166,6 +167,7 @@ class App extends Component {
             render={ (routerProps) => (<ProductDetails
               { ...routerProps }
               addToCart={ this.addToCart }
+              cartItems={ cartItems }
             />) }
           />
           <Route path="*" component={ NotFound } />

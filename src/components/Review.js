@@ -12,8 +12,8 @@ class Review extends Component {
         <div>
           { [...Array(stars)].map((star, index) => (
             index < rating
-              ? <span className="selected">★</span>
-              : <span className="unselected">★</span>
+              ? <span key={ index } className="selected">★</span>
+              : <span key={ index } className="unselected">★</span>
           ))}
         </div>
         <p>{ comment }</p>
@@ -25,7 +25,7 @@ class Review extends Component {
 Review.propTypes = {
   reviews: PropTypes.shape({
     email: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
+    rating: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,
   }).isRequired,
 };
