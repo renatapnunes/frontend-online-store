@@ -15,6 +15,15 @@ class CartButton extends Component {
     };
 
     this.showCart = this.showCart.bind(this);
+    this.getSliderCartItem = this.getSliderCartItem.bind(this);
+  }
+
+  getSliderCartItem() {
+    const { cartItems } = this.props;
+
+    if (cartItems.length === 0) return <h2>Seu carrinho está vazio</h2>;
+
+    return cartItems.map((item) => <SliderCartItem key={ item.id } product={ item } />);
   }
 
   showCart(status) {
@@ -28,7 +37,6 @@ class CartButton extends Component {
   }
 
   render() {
-    const { cartItems } = this.props;
     const { show } = this.state;
     let classSlider = '';
 
@@ -36,10 +44,6 @@ class CartButton extends Component {
       classSlider = 'slider-cart';
     } else {
       classSlider = 'slider-cart-hidden';
-    }
-
-    if (cartItems.length === 0) {
-      return <h2>Seu carrinho está vazio</h2>;
     }
 
     return (
@@ -53,7 +57,7 @@ class CartButton extends Component {
           <img src={ icon } alt="shopping cart" />
         </Link>
         <ul className={ classSlider }>
-          { cartItems.map((item) => <SliderCartItem key={ item.id } product={ item } />) }
+          { this.getSliderCartItem() }
         </ul>
       </button>
     );
