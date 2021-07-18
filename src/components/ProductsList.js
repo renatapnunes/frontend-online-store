@@ -5,11 +5,13 @@ import ProductCard from './ProductCard';
 
 class Products extends Component {
   render() {
-    const { data, addToCart } = this.props;
+    const { data, addToCart, order } = this.props;
 
-    if (data.length === 0) {
-      return 'Nenhum produto foi encontrado';
-    }
+    if (data.length === 0) return 'Nenhum produto foi encontrado';
+
+    if (order === 'lowest') data.sort((a, b) => a.price - b.price);
+
+    if (order === 'biggest') data.sort((a, b) => b.price - a.price);
 
     return (
       <section>
@@ -28,6 +30,7 @@ class Products extends Component {
 Products.propTypes = {
   data: PropTypes.arrayOf(Object).isRequired,
   addToCart: PropTypes.func.isRequired,
+  order: PropTypes.string.isRequired,
 };
 
 export default Products;
