@@ -18,8 +18,8 @@ class Cart extends Component {
 
     if (cartItems.length === 0) {
       return (
-        <div data-testid="shopping-cart-empty-message">
-          <h2>Seu carrinho está vazio</h2>
+        <div>
+          <h2 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h2>
           <button type="button"><Link to="/">VOLTAR</Link></button>
         </div>
       );

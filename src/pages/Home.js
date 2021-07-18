@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import SearchInput from '../components/SearchInput';
-import CartButton from '../components/CartButton';
 import Categories from '../components/Categories';
 import ProductsList from '../components/ProductsList';
+import CartButton from '../components/CartButton';
 import * as api from '../services/api';
 
 class Home extends Component {
@@ -70,7 +70,7 @@ class Home extends Component {
 
   render() {
     const { data, value, order, categories } = this.state;
-    const { addToCart } = this.props;
+    const { addToCart, cartItems } = this.props;
     return (
       <main>
         <SearchInput
@@ -78,20 +78,22 @@ class Home extends Component {
           handleChange={ this.handleChange }
           handleSubmit={ this.handleSubmit }
         />
-        <label htmlFor="select-order">
-          Ordernar por:
-          <select
-            id="select-order"
-            name="order"
-            value={ order }
-            onChange={ this.updateSelect }
-          >
-            <option value="relevant">mais relevante</option>
-            <option value="lowest">menor preço</option>
-            <option value="biggest">maior preço</option>
-          </select>
-        </label>
-        <CartButton />
+        <div className="spacer">
+          <label htmlFor="select-order">
+            Ordernar por:
+            <select
+              id="select-order"
+              name="order"
+              value={ order }
+              onChange={ this.updateSelect }
+            >
+              <option value="relevant">mais relevante</option>
+              <option value="lowest">menor preço</option>
+              <option value="biggest">maior preço</option>
+            </select>
+          </label>
+          <CartButton cartItems={ cartItems } />
+        </div>
         <Categories categories={ categories } handleClick={ this.handleClick } />
         <ProductsList addToCart={ addToCart } data={ data } order={ order } />
       </main>
@@ -101,7 +103,7 @@ class Home extends Component {
 
 Home.propTypes = {
   addToCart: PropTypes.func.isRequired,
-  // cartItems: PropTypes.arrayOf(Object).isRequired,
+  cartItems: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default Home;
