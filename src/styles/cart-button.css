@@ -1,9 +1,32 @@
-.btn-cart {
+.cart-button {
+  height: 60px;
   position: absolute;
   right: 0;
+  width: 60px;
 }
 
-.btn-cart img {
+.cart-link {
   height: 50px;
+  position: absolute;
   width: 50px;
+}
+
+.cart-icon {
+  height: 50px;
+  margin-top: 5px;
+  position: absolute;
+  width: 50px;
+}
+
+.cart-quantity {
+  background-color: rgb(191, 18, 55);
+  border-radius: 50%;
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 25px;
+  margin-left: 30px;
+  position: absolute;
+  text-align: center;
+  width: 25px;
 }
