@@ -64,7 +64,7 @@ class Home extends Component {
 
   render() {
     const { data, value, categories } = this.state;
-    const { addToCart } = this.props;
+    const { addToCart, cartItems } = this.props;
     return (
       <main>
         <SearchInput
@@ -72,7 +72,7 @@ class Home extends Component {
           handleChange={ this.handleChange }
           handleSubmit={ this.handleSubmit }
         />
-        <CartButton />
+        <CartButton cartItems={ cartItems } />
         <Categories categories={ categories } handleClick={ this.handleClick } />
         <ProductsList addToCart={ addToCart } data={ data } />
       </main>
@@ -82,6 +82,7 @@ class Home extends Component {
 
 Home.propTypes = {
   addToCart: PropTypes.func.isRequired,
+  cartItems: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default Home;

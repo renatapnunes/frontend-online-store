@@ -7,3 +7,35 @@
   height: 50px;
   width: 50px;
 }
+
+.slider-cart {
+  background-color: white;
+  text-align: center;
+  visibility: visible;
+  width: 300px;
+}
+
+.slider-cart-hidden {
+  display: none;
+  text-align: center;
+  width: 300px;
+}
+
+.item-slider-cart {
+  align-items: center;
+  border: 1px solid black;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  list-style: square;
+  margin: 0;
+}
+
+.slider-infos {
+  align-items: flex-start;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  text-align: left;
+  width: 70%;
+}

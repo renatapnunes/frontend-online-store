@@ -8,13 +8,13 @@ import '../styles/reviews.css';
 
 class ProductDetails extends Component {
   render() {
-    const { addToCart, location: { state: { product } } } = this.props;
+    const { addToCart, cartItems, location: { state: { product } } } = this.props;
     const { thumbnail, title, price, attributes, id, shipping } = product;
 
     return (
       <div>
         <section>
-          <CartButton />
+          <CartButton cartItems={ cartItems } />
           <div>
             { shipping.free_shipping
               ? <span data-testid="free-shipping">FRETE GRÁTIS</span>
@@ -52,6 +52,7 @@ class ProductDetails extends Component {
 ProductDetails.propTypes = {
   location: PropTypes.objectOf(Object).isRequired,
   addToCart: PropTypes.func.isRequired,
+  cartItems: PropTypes.objectOf(Object).isRequired,
 };
 
 export default ProductDetails;
