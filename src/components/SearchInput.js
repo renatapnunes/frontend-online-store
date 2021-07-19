@@ -5,10 +5,11 @@ class SearchInput extends Component {
   render() {
     const { value, handleChange, handleSubmit } = this.props;
     return (
-      <form onSubmit={ handleSubmit }>
+      <form className="search-form" onSubmit={ handleSubmit }>
         <label
           htmlFor="search-input"
           data-testid="home-initial-message"
+          className="search-label"
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
           <input

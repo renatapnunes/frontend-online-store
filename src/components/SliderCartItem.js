@@ -6,10 +6,10 @@ class SliderCartItem extends Component {
     const { product } = this.props;
     const { img, title, quantity, price } = product;
     return (
-      <li className="item-slider-cart">
-        <img src={ img } alt={ title } className="img-slider" />
-        <div className="slider-infos">
-          <p className="slider-title">{ title }</p>
+      <li className="cart-slider-item">
+        <img src={ img } alt={ title } className="cart-slider-img-item" />
+        <div className="cart-slider-infos-item">
+          <p>{ title }</p>
           <p>{ `R$${price.toFixed(2)}` }</p>
           <p>{`Quantidade: ${quantity}`}</p>
         </div>

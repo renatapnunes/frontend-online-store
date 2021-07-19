@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import SliderCartItem from './SliderCartItem';
 import icon from '../icon/shopping-cart.png';
-import '../styles/cart-button.css';
 
 class CartButton extends Component {
   constructor() {
@@ -47,30 +46,32 @@ class CartButton extends Component {
 
   render() {
     const { show } = this.state;
+    let classButton = '';
     let classSlider = '';
 
     if (show) {
-      classSlider = 'slider-cart';
+      classButton = 'cart-button';
+      classSlider = 'cart-slider';
     } else {
-      classSlider = 'slider-cart-hidden';
+      classButton = 'cart-button-slider-hidden';
+      classSlider = 'cart-slider-hidden';
     }
 
     return (
       <button
+        className={ classButton }
         type="button"
-        className="btn-cart"
         onMouseEnter={ () => this.showCart(true) }
         onMouseLeave={ () => this.showCart(false) }
       >
-        <div className="cart-slider">
+        <div className="container">
           <Link
             to="/cart"
             data-testid="shopping-cart-button"
-            className="cart-link"
           >
-            <img src={ icon } alt="shopping cart" className="cart-icon" />
+            <img src={ icon } alt="shopping cart" className="cart-btn-icon" />
           </Link>
-          <span className="cart-quantity" data-testid="shopping-cart-size">
+          <span data-testid="shopping-cart-size" className="cart-btn-quantity">
             { this.quantityOfItems() }
           </span>
         </div>

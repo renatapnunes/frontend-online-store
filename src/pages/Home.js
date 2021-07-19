@@ -6,6 +6,7 @@ import Categories from '../components/Categories';
 import ProductsList from '../components/ProductsList';
 import CartButton from '../components/CartButton';
 import * as api from '../services/api';
+import '../styles/cart-button-slider.css';
 
 class Home extends Component {
   constructor() {
@@ -78,22 +79,20 @@ class Home extends Component {
           handleChange={ this.handleChange }
           handleSubmit={ this.handleSubmit }
         />
-        <div className="spacer">
-          <label htmlFor="select-order">
-            Ordernar por:
-            <select
-              id="select-order"
-              name="order"
-              value={ order }
-              onChange={ this.updateSelect }
-            >
-              <option value="relevant">mais relevante</option>
-              <option value="lowest">menor preço</option>
-              <option value="biggest">maior preço</option>
-            </select>
-          </label>
-          <CartButton cartItems={ cartItems } />
-        </div>
+        <label htmlFor="select-order">
+          Ordernar por:
+          <select
+            id="select-order"
+            name="order"
+            value={ order }
+            onChange={ this.updateSelect }
+          >
+            <option value="relevant">mais relevante</option>
+            <option value="lowest">menor preço</option>
+            <option value="biggest">maior preço</option>
+          </select>
+        </label>
+        <CartButton cartItems={ cartItems } />
         <Categories categories={ categories } handleClick={ this.handleClick } />
         <ProductsList addToCart={ addToCart } data={ data } order={ order } />
       </main>
